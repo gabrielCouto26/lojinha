@@ -23,6 +23,15 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async update(id: number, params: IUser): Promise<User | null> {
+    let user = await this.usersRepository.findOneBy({ id })
+    if (!user)
+      return null
+
+    let updated = this.usersRepository.merge(user, params)
+    return await this.usersRepository.save(updated);
+  }
+
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
